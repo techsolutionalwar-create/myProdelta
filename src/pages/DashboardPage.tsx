@@ -46,8 +46,13 @@ export default function DashboardPage() {
   }, [refreshIndicators, refreshBots])
 
   useEffect(() => {
-    const unsub = botEngine.subscribe(() => forceRerender((n) => n + 1))
-    return unsub
+  const unsub = botEngine.subscribe(() => {
+    forceRerender((n: number) => n + 1)
+  })
+
+  return () => {
+    if (typeof unsub === 'function') unsub()
+    }
   }, [])
 
   // Poll account data when connected
